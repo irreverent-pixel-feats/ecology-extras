@@ -1,0 +1,15 @@
+#!/bin/sh -eux
+
+PROJECT_NAME=${1:?"The name of the repo"}
+PROJECT_DESCRIPTION=${2:?"The short description for the project"}
+
+cat "template-files/README.md.template" \
+  | sed "s@\\\${project-name}\\\$@${PROJECT_NAME}@g" \
+  | sed "s@\\\${project-description}\\\$@${PROJECT_DESCRIPTION}@g" \
+  | tee "README.md"
+
+cat "template-files/ci.common.template" \
+  | sed "s@\\\${project-name}\\\$@${PROJECT_NAME}@g" \
+  | tee "bin/ci.common"
+
+chmod u+x "bin/ci.common"
