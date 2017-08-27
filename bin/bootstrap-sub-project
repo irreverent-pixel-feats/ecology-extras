@@ -1,10 +1,12 @@
 #!/bin/sh -eux
 
 REPO_NAME=${1:?"The name of the parent repo"}
-SUB_PROJECT_NAME=${2:?"The name of the subproject"}
-PROJECT_MAINTAINER=${3:?"Name of the maintainer"}
-PROJECT_DESCRIPTION=${4:?"Short one-liner description for project"}
-ROOT_NAMESPACE=${5:?"Root namespace for the modules"}
+REPO_OWNER=${2:?"The person/organisation the repo belongs to"}
+REPO_LOCATION=${3:?"Where the repo is e.g. github.com or bitbucket.org"}
+SUB_PROJECT_NAME=${4:?"The name of the subproject"}
+PROJECT_MAINTAINER=${5:?"Name of the maintainer"}
+PROJECT_DESCRIPTION=${6:?"Short one-liner description for project"}
+ROOT_NAMESPACE=${7:?"Root namespace for the modules"}
 
 YEAR=$(TZ=UTC date +"%Y")
 SRC_ROOT=$(echo "${ROOT_NAMESPACE}" | tr '.' '/')
@@ -28,14 +30,14 @@ copyright:          Copyright (C) ${YEAR}
 synopsis:           ${PROJECT_DESCRIPTION}
 category:           Data
 description:        ${PROJECT_DESCRIPTION}
-homepage:           https://github.com/domdere/${REPO_NAME}
-bug-reports:        https://github.com/domdere/${REPO_NAME}/issues
+homepage:           https://${REPO_LOCATION}/${REPO_OWNER}/${REPO_NAME}
+bug-reports:        https://${REPO_LOCATION}/${REPO_OWNER}/${REPO_NAME}/issues
 cabal-version:      >= 1.18
 build-type:         Simple
 
 source-repository       head
     type:               git
-    location:           https://github.com/domdere/${REPO_NAME}.git
+    location:           https://${REPO_LOCATION}/${REPO_OWNER}/${REPO_NAME}.git
 
 flag                    small_base
     description:        Choose the new, split-up base package.
