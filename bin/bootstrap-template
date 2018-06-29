@@ -1,15 +1,12 @@
 #!/bin/sh -eux
 
-PROJECT_NAME=${1:?"The name of the repo"}
-PROJECT_DESCRIPTION=${2:?"The short description for the project"}
-
 run_template() {
   TEMPLATE=$1
   DEST=$2
 
   cat "template-files/$TEMPLATE" \
-    | sed "s@\\\${project-name}\\\$@${PROJECT_NAME}@g" \
-    | sed "s@\\\${project-description}\\\$@${PROJECT_DESCRIPTION}@g" \
+    | sed "s@\\\${project-name}\\\$@${ECOLOGY_PROJECT_NAME}@g" \
+    | sed "s@\\\${project-description}\\\$@${ECOLOGY_PROJECT_DESCRIPTION}@g" \
     | tee "${DEST}"
 }
 
