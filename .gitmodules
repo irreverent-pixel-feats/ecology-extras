@@ -7,3 +7,9 @@
 [submodule "lib/ultra"]
 	path = lib/ultra
 	url = https://github.com/domdere/ultra.git
+[submodule "lib/ecology"]
+	path = lib/ecology
+	url = https://github.com/irreverent-pixel-feats/ecology.git
+[submodule "lib/bitbucket"]
+	path = lib/bitbucket
+	url = https://github.com/irreverent-pixel-feats/bitbucket.git
