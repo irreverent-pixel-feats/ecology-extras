@@ -25,7 +25,7 @@ Each project can be built with the command:
 ```
 
 The first time you ever run it on your system it might take a while, as it will build and install
-[`ambiata/mafia`](https://github.com/ambiata/mafia) on your system.
+[`haskell-mafia/mafia`](https://github.com/haskell-mafia/mafia) on your system.
 
 ## Running the tests
 
