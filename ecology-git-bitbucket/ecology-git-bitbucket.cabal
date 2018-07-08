@@ -1,0 +1,53 @@
+name:               irreverent-ecology-git-bitbucket
+version:            0.0.1
+license:            BSD3
+author:             Dom De Re
+maintainer:         Dom De Re
+copyright:          Copyright (C) 2018 Irreverent Pixel Feats
+synopsis:           Functions to help write ecology bitbucket git platform API implementations
+category:           Data
+description:        Functions to help write ecology bitbucket git platform API implementations
+homepage:           https://github.com/irreverent-pixel-feats/ecology-extras
+bug-reports:        https://github.com/irreverent-pixel-feats/ecology-extras/issues
+cabal-version:      >= 1.18
+build-type:         Simple
+
+source-repository       head
+    type:               git
+    location:           https://github.com/irreverent-pixel-feats/ecology-extras.git
+
+flag                    small_base
+    description:        Choose the new, split-up base package.
+
+library
+    default-language:   Haskell2010
+
+    build-depends:      array
+                      , base < 5 && >= 4
+                      , bytestring              == 0.10.*
+                      , containers
+                      , domdere-preamble
+                      , irreverent-bitbucket-core
+                      , irreverent-bitbucket-http-client
+                      , irreverent-ecology-api
+                      , irreverent-ecology-core
+                      , ultra-either
+                      , ultra-exceptions
+                      , ultra-text
+                      , wreq                    == 0.5.*
+
+    ghc-options:        -Wall
+
+    hs-source-dirs:     src
+
+    exposed-modules:    Irreverent.Ecology.Git.Bitbucket
+
+test-suite              test
+    default-language:   Haskell2010
+    type:               exitcode-stdio-1.0
+    main-is:            test.hs
+    hs-source-dirs:     test
+    build-depends:      base                >= 4 && < 5
+                    ,   lab-hedgehog-core
+                    ,   domdere-preamble
+                    ,   irreverent-ecology-git-bitbucket
