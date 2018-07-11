@@ -1,4 +1,4 @@
-# ecology-extras
+# ecology-extras [![Build Status](https://travis-ci.com/irreverent-pixel-feats/ecology-extras.svg?branch=master)](https://travis-ci.com/irreverent-pixel-feats/ecology-extras)
 
 ## Description
 
