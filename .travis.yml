@@ -1,0 +1,46 @@
+language: minimal
+sudo: required
+dist: trusty
+git:
+  submodules: false
+cache:
+  directories:
+  - "$HOME/.mafia"
+  - "$HOME/.cabal"
+matrix:
+  include:
+  - env: GHCVER=8.2.2 CABALVER=2.0
+    addons:
+      apt:
+        update: true
+        sources:
+          - hvr-ghc
+        packages:
+          - ghc-8.2.2
+          - cabal-install-2.0
+  #allow-failures:
+  #  - env: GHCVER=head
+addons:
+  apt:
+    update: true
+    sources:
+      - hvr-ghc
+    packages:
+      - ghc-7.10.2
+      - libgmp-dev
+
+before_install:
+  # ghc
+  - export PATH=/opt/ghc/$GHCVER/bin:/opt/cabal/$CABALVER/bin:$PATH
+
+script:
+  # time it out before travis kills it.
+  # If travis times out the build, it wont save the cache, meaning the
+  # next build will also most likely timeout
+  # (travis_wait doesnt work btw, theres still a global timeout of
+  # approx 40 mins it seems.
+  - timeout 35m bin/ci
+
+notifications:
+  slack:
+    secure: Pg1ypt9C5bqZrhofd2NW+rbAOBhCxH12WrEwjW+/zTCbg001ECFrXbis+2Odkvx2Htw03Don0U+9XgfCO3Fy1wshe81MT4bcLIFOPhV99YXqIhSvHJOCk8fUpt1ov5U09UVOelC8IVnh7/k+LNkZ5zJsxMh7MjkOf7D1m+vWd3RvMnm8mt8oLQ/dmvXWluTekkIy6QZpZeIuYz0l3UF3QDfd/idNX8WjxVlscDjAsmoI3CwgjvnfcJxV/iI4th+hTBQf/DHBbp8e7XicY656vXIJgG9LQdfJ0cSa5s6Ar6n380Kz5AtpDfDO9Gi5ZtyoovVKmPjaKxHyjmG8nMVF4KsY1siZ+HX9mjZoWAs3FNA+AR3PAj2T26MF455+pvARreY5Lo2rQjOzJgFnrRbeml2u0+xDspX74Cnvc/X4D0uKDnki3nUddiQwiykiwPAGhHL7RrhZkmP/P5yT+yiCgzQmdvW417wEi28Eo5qyplr1MRZfa5gUJxyhtW76hAlsccmFqnSjbLdTC2tGL4a1XSIVxhYLuckB7hH/QdTN/ufY+XF8rtHKQA/rEuojEEoeUMf7z6cPWimHJ5xpnhdV18eE5r7+LD7pMfnVeZEhCqeLjQ6OYgvV/exr3gI0qGZHwyIS8s0orFXCmha1S6SDDQ3CS4gPRPtIjZ1g5FrWCtU=
