@@ -8,6 +8,7 @@ module Irreverent.Ecology.IM.Slack (
   -- Functions
   , renderSlackIMError
   , slackAPI
+  , syncNotification
   ) where
 
 import Irreverent.Ecology.Core (GitRepository(..))
