@@ -71,8 +71,7 @@ bitbucketAPI
   -> B.Auth
   -> B.Username
   -> GitPlatformAPI a b m GitEcologyError
-bitbucketAPI projectFunction renderType auth@(B.Basic user token) org = GitPlatformAPI
-  (user <> ":" <> token)
+bitbucketAPI projectFunction renderType auth org = GitPlatformAPI
   (getOrgReposBitbucket auth org)
   (createNewRepoBitbucket projectFunction renderType auth org)
 
