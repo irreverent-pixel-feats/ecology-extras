@@ -66,14 +66,15 @@ renderGitEcologyError (BitbucketAPIError e) = B.renderBitbucketAPIError e
 --
 bitbucketAPI
   :: (MonadCatch m, MonadIO m)
-  => (NewGitRepository a -> Maybe B.ProjectKey)
+  => (NewGitRepository a b -> Maybe B.ProjectKey)
+  -> (a -> T.Text)
   -> B.Auth
   -> B.Username
-  -> GitPlatformAPI a m GitEcologyError
-bitbucketAPI projectFunction auth@(B.Basic user token) org = GitPlatformAPI
+  -> GitPlatformAPI a b m GitEcologyError
+bitbucketAPI projectFunction renderType auth@(B.Basic user token) org = GitPlatformAPI
   (user <> ":" <> token)
   (getOrgReposBitbucket auth org)
-  (createNewRepoBitbucket projectFunction auth org)
+  (createNewRepoBitbucket projectFunction renderType auth org)
 
 convertBitbRepo :: B.Repository -> GitRepository
 convertBitbRepo repo =
@@ -93,10 +94,11 @@ getOrgReposBitbucket auth org =
       pure $ fmap convertBitbRepo bitbRepos
 
 toNewBitbRepo
-  :: (NewGitRepository a -> Maybe B.ProjectKey)
-  -> NewGitRepository a
+  :: (NewGitRepository a b -> Maybe B.ProjectKey)
+  -> (a -> T.Text)
+  -> NewGitRepository a b
   -> B.NewRepository
-toNewBitbRepo projectFunction =
+toNewBitbRepo projectFunction renderType =
   let
     privacy' :: EcologyPrivacy -> B.Privacy
     privacy' EcologyPrivate = B.Private
@@ -111,18 +113,19 @@ toNewBitbRepo projectFunction =
     <*> projectFunction
     <*> forkPolicy' . newRepoPrivacy
     <*> privacy' . newRepoPrivacy
-    <*> B.Language . newRepoLanguage
+    <*> B.Language . renderType . newRepoType
     <*> pure B.NoWiki
     <*> pure B.HasIssues
 
 createNewRepoBitbucket
   :: (MonadCatch m, MonadIO m)
-  => (NewGitRepository a -> Maybe B.ProjectKey)
+  => (NewGitRepository a b -> Maybe B.ProjectKey)
+  -> (a -> T.Text)
   -> B.Auth
   -> B.Username
-  -> NewGitRepository a
+  -> NewGitRepository a b
   -> EitherT GitEcologyError m GitRepository
-createNewRepoBitbucket projectFunction auth owner newRepo =
+createNewRepoBitbucket projectFunction renderType auth owner newRepo =
   firstEitherT BitbucketAPIError . mapEitherT (flip runReaderT auth . B.runBitbucketT) $ do
     session <- liftIO S.newSession
     convertBitbRepo <$>
@@ -130,4 +133,4 @@ createNewRepoBitbucket projectFunction auth owner newRepo =
         session
         owner
         (B.RepoName . ecologyProjectNameText . newRepoName $ newRepo)
-        (toNewBitbRepo projectFunction newRepo)
+        (toNewBitbRepo projectFunction renderType newRepo)
