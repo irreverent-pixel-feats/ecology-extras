@@ -1,0 +1,50 @@
+name:               irreverent-ecology-git-github
+version:            0.0.1
+license:            BSD3
+author:             Dom De Re
+maintainer:         Dom De Re
+copyright:          Copyright (C) 2018 Irreverent Pixel Feats
+synopsis:           Github backend for the Ecology Git API
+category:           Data
+description:        Github backend for the Ecology Git API
+homepage:           https://github.com/irreverent-pixel-feats/ecology-extras
+bug-reports:        https://github.com/irreverent-pixel-feats/ecology-extras/issues
+cabal-version:      >= 1.18
+build-type:         Simple
+
+source-repository       head
+    type:               git
+    location:           https://github.com/irreverent-pixel-feats/ecology-extras.git
+
+flag                    small_base
+    description:        Choose the new, split-up base package.
+
+library
+    default-language:   Haskell2010
+
+    build-depends:      array
+                      , base < 5 && >= 4
+                      , bytestring              == 0.10.*
+                      , containers
+                      , github                  == 0.19.*
+                      , domdere-preamble
+                      , irreverent-ecology-api
+                      , irreverent-ecology-core
+                      , ultra-either
+                      , ultra-text
+
+    ghc-options:        -Wall
+
+    hs-source-dirs:     src
+
+    exposed-modules:    Irreverent.Ecology.Git.GitHub
+
+test-suite              test
+    default-language:   Haskell2010
+    type:               exitcode-stdio-1.0
+    main-is:            test.hs
+    hs-source-dirs:     test
+    build-depends:      base                >= 4 && < 5
+                    ,   lab-core
+                    ,   domdere-preamble
+                    ,   irreverent-ecology-git-github
