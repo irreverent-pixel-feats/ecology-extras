@@ -80,7 +80,7 @@ toNewGHRepo =
     <*> pure . ecologyProjectDescriptionText . newRepoDescription
     <*> pure Nothing
     <*> pure . privacy' . newRepoPrivacy
-    <*> pure (pure False)
+    <*> pure (pure True)
     <*> pure (pure False)
     <*> pure (pure False)
 
