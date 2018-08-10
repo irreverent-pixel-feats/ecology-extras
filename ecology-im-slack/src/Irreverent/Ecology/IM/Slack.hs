@@ -45,7 +45,7 @@ data SlackSyncNotificationLine =
 
 lineToAttachment :: SlackSyncNotificationLine -> Value
 lineToAttachment (SlackSyncNotificationLine n gurl) = object [
-    "fallback" .= T.concat ["Name: ", n, ", Git URL: ", gurl]
+    "fallback" .= T.concat ["Name: ", n, ", Project Page: ", gurl]
   , "color" .= t "#9c62ff"
   , "fields" .= [
       object [
@@ -54,7 +54,7 @@ lineToAttachment (SlackSyncNotificationLine n gurl) = object [
         , "short" .= True
         ],
       object [
-          "title" .= t "Git URL"
+          "title" .= t "Project Page"
         , "value" .= gurl
         , "short" .= True
         ]
@@ -104,7 +104,7 @@ syncNotification webhook repos =
 syncLine :: GitRepository -> SlackSyncNotificationLine
 syncLine repo = SlackSyncNotificationLine
   (gitRepoName repo)
-  (gitRepoURL repo) -- TODO: Should maybe add the web location for the repo, as this will be the git url.
+  (gitRepoHtmlUrl repo)
 
 t :: T.Text -> T.Text
 t = id
