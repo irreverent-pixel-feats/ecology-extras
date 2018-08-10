@@ -80,6 +80,7 @@ convertBitbRepo repo =
   GitRepository
     (B.getRepoName . B.repoName $ repo)
     (B.getUri . B.hrefUrl . B.repoCloneSsh $ repo)
+    (B.getUri . B.hrefUrl . B.repoHtml $ repo)
 
 getOrgReposBitbucket
   :: (MonadCatch m, MonadIO m)

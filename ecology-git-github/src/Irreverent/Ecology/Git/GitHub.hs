@@ -64,7 +64,8 @@ liftGH = firstEitherT GitHubAPIError . EitherT . liftIO
 convertGitHubRepo :: G.Repo -> GitRepository
 convertGitHubRepo = GitRepository
   <$> G.untagName . G.repoName
-  <*> G.getUrl . G.repoUrl
+  <*> maybe "" G.getUrl . G.repoSshUrl
+  <*> G.getUrl . G.repoHtmlUrl
 
 toNewGHRepo
   :: NewGitRepository a b
